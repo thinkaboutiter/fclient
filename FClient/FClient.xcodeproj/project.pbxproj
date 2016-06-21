@@ -12,6 +12,7 @@
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
 		4FFE8D9A1D19A9B100DC3F7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D981D19A9B100DC3F7B /* LaunchScreen.storyboard */; };
 		4FFE8DAA1D19ACE400DC3F7B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8DA91D19ACE400DC3F7B /* BaseViewController.swift */; };
+		4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8DAC1D19ADFF00DC3F7B /* MainViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4FFE8D991D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4FFE8D9B1D19A9B100DC3F7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FFE8DA91D19ACE400DC3F7B /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		4FFE8DAC1D19ADFF00DC3F7B /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = "FClient/source/View/1-MainScreen-View/MainViewController.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				4FFE8DA41D19ABA500DC3F7B /* _BaseClasses */,
+				4FFE8DAB1D19AD3A00DC3F7B /* 1-MainScreen-View */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -126,6 +129,15 @@
 			children = (
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		4FFE8DAB1D19AD3A00DC3F7B /* 1-MainScreen-View */ = {
+			isa = PBXGroup;
+			children = (
+				4FFE8DAC1D19ADFF00DC3F7B /* MainViewController.swift */,
+			);
+			name = "1-MainScreen-View";
+			path = "1-MainScreen";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */,
 				4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */,
 				4FFE8DAA1D19ACE400DC3F7B /* BaseViewController.swift in Sources */,
 			);

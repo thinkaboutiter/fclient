@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import SimpleLogger
+import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // MARK: - Properties
+    
     var window: UIWindow?
+    private let sqliteStoreName: String = "Model.sqlite"
 
+    // MARK: - Life cycle
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        self.configureSimpleLogger()
+        
+        // setup core data stack
+        MagicalRecord.setupCoreDataStackWithAutoMigratingSqliteStoreNamed(self.sqliteStoreName)
+        
+        // log sqlite file location
+        Logger.logCache().logMessage("\(self) \(#line) \(#function) » DB file location: \(NSPersistentStore.MR_urlForStoreName(self.sqliteStoreName))")
+        
         return true
     }
 
@@ -39,8 +53,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        MagicalRecord.cleanUp()
     }
 
-
+    // MARK: - Configurations (private)
+    
+    private func configureSimpleLogger() {
+        // enable logging
+        #if DEBUG
+            SimpleLogger.enableLogging(true)
+        #endif
+    }
 }
 

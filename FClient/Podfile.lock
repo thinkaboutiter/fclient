@@ -1,0 +1,20 @@
+PODS:
+  - MagicalRecord (2.3.2):
+    - MagicalRecord/Core (= 2.3.2)
+  - MagicalRecord/Core (2.3.2)
+  - SimpleLogger (0.1.9)
+  - SnapKit (0.21.0)
+
+DEPENDENCIES:
+  - MagicalRecord (~> 2.3.2)
+  - SimpleLogger (= 0.1.9)
+  - SnapKit (~> 0.20)
+
+SPEC CHECKSUMS:
+  MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  SimpleLogger: 05c7a7535ed1523b42ade5b2dfe651ecfa8a6352
+  SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
+
+PODFILE CHECKSUM: a5bc0f6d5c49d3c927cf970c07f595f90dc6510b
+
+COCOAPODS: 1.0.0

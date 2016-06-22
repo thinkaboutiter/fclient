@@ -16,9 +16,9 @@ protocol MainViewModelConsumable: class {
     var viewModel: MainViewModel? { get }
 }
 
-// MARK: - Currency enum
+// MARK: - QuoteSymbol enum
 
-enum Currency {
+enum QuoteSymbol {
     // initial
     case EURUSD
     case GBPUSD
@@ -34,7 +34,7 @@ enum Currency {
     case AUDCAD
     
     
-    func name() -> String {
+    func stringValue() -> String {
         switch self {
         // inital
         case EURUSD:
@@ -70,7 +70,7 @@ enum Currency {
         }
     }
     
-    static func initialCurrencies() -> [Currency] {
+    static func initialQuoteSymbols() -> [QuoteSymbol] {
         return [
             EURUSD,
             GBPUSD,
@@ -79,7 +79,7 @@ enum Currency {
         ]
     }
     
-    static func allCurrencies() -> [Currency] {
+    static func allQuoteSymbols() -> [QuoteSymbol] {
         return [
             EURUSD,
             GBPUSD,

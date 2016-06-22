@@ -8,6 +8,7 @@
 
 import UIKit
 import SimpleLogger
+import MagicalRecord
 
 // MARK: - MainViewController
 
@@ -55,6 +56,8 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        self.checkCoreDataObjects()
     }
     
     override func configureUI() {
@@ -67,14 +70,14 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // testing
+    private func checkCoreDataObjects() {
+        
+        guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to find \(String(Configuration.self)) object in database")
+            return
+        }
+        
+        Logger.logCache().logMessage("\(self) \(#line) \(#function) » \(String(Configuration.self)) object found").logObject(valid_Configuration)
     }
-    */
-
 }

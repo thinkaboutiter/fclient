@@ -7,13 +7,61 @@
 //
 
 import UIKit
+import SimpleLogger
+import MagicalRecord
 
-class MainViewController: BaseViewController {
+// MARK: - MainViewController
 
+class MainViewController: BaseViewController, MainViewModelConsumable {
+
+    // MARK: Properties
+    
+    private(set) var viewModel: MainViewModel? {
+        didSet {
+            self.viewModel?.updateView(self)
+        }
+    }
+    
+    // MARK: Cascaded accessors
+    
+    func updateViewModel(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    // MARK: Intitialization
+    
+    required init(withViewModel viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    deinit {
+        Logger.logInfo().logMessage("\(self) \(#line) \(#function) » \(String(MainViewController.self)) deinitialized")
+    }
+    
+    // MARK: Life cycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // set viewModel object
+        self.viewModel = MainViewModel()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        self.checkCoreDataObjects()
+    }
+    
+    override func configureUI() {
+        self.title = self.viewModel?.title
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,14 +70,14 @@ class MainViewController: BaseViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // testing
+    private func checkCoreDataObjects() {
+        
+        guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to find \(String(Configuration.self)) object in database")
+            return
+        }
+        
+        Logger.logCache().logMessage("\(self) \(#line) \(#function) » \(String(Configuration.self)) object found").logObject(valid_Configuration)
     }
-    */
-
 }

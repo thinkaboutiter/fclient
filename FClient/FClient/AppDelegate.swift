@@ -30,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // log sqlite file location
         Logger.logCache().logMessage("\(self) \(#line) \(#function) » DB file location: \(NSPersistentStore.MR_urlForStoreName(self.sqliteStoreName))")
         
+        // initial configuration
+        self.setupInitialConfiguration()
+        
         return true
     }
 
@@ -63,6 +66,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #if DEBUG
             SimpleLogger.enableLogging(true)
         #endif
+    }
+    
+    private func setupInitialConfiguration() {
+        
+        // check to see if there is a Configuration object in data base, if not create one
+        if Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) == nil {
+            
+            Logger.logInfo().logMessage("\(self) \(#line) \(#function) » Creating default configuration")
+            
+            MagicalRecord.saveWithBlockAndWait({ (context: NSManagedObjectContext) in
+                guard let newConfiguration: Configuration = Configuration.MR_createEntityInContext(context) else {
+                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to create \(String(Configuration.self)) object")
+                    return
+                }
+                
+                // set title
+                newConfiguration.title = Configuration.defaultTitle
+                
+                // create initial Quotes
+                for quoteSymbol in QuoteSymbol.initialQuoteSymbols() {
+                    
+                    guard let newQuote: Quote = Quote.MR_createEntityInContext(context) else {
+                        Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to create \(String(Quote.self)) object")
+                        break
+                    }
+                    
+                    newQuote.currency = quoteSymbol.stringValue()
+                    newQuote.displayName = quoteSymbol.stringValue()
+                    
+                    // set relation
+                    newQuote.configuration = newConfiguration
+                }
+            })
+        }
+        else {
+            Logger.logInfo().logMessage("\(self) \(#line) \(#function) » Default configuration present")
+        }
     }
 }
 

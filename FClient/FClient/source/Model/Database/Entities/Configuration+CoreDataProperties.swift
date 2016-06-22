@@ -14,7 +14,7 @@ import CoreData
 
 extension Configuration {
 
-    @NSManaged var name: String?
+    @NSManaged var title: String?
     @NSManaged var quotes: NSSet?
 
 }

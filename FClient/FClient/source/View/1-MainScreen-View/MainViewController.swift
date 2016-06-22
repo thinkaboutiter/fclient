@@ -7,13 +7,58 @@
 //
 
 import UIKit
+import SimpleLogger
 
-class MainViewController: BaseViewController {
+// MARK: - MainViewController
 
+class MainViewController: BaseViewController, MainViewModelConsumable {
+
+    // MARK: Properties
+    
+    private(set) var viewModel: MainViewModel? {
+        didSet {
+            self.viewModel?.updateView(self)
+        }
+    }
+    
+    // MARK: Cascaded accessors
+    
+    func updateViewModel(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    // MARK: Intitialization
+    
+    required init(withViewModel viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    deinit {
+        Logger.logInfo().logMessage("\(self) \(#line) \(#function) » \(String(MainViewController.self)) deinitialized")
+    }
+    
+    // MARK: Life cycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // set viewModel object
+        self.viewModel = MainViewModel()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func configureUI() {
+        self.title = self.viewModel?.title
     }
 
     override func didReceiveMemoryWarning() {

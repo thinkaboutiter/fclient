@@ -12,6 +12,9 @@ import CoreData
 
 class Quote: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    // Insert code here to add functionality to your managed object subclass
+    
+    static let currency_AttributeName: String = "currency"
+    static let displayName_AttributeName: String = "displayName"
 
 }

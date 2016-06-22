@@ -12,6 +12,9 @@ import CoreData
 
 class Configuration: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
+    // Insert code here to add functionality to your managed object subclass
+    
+    static let defaultTitle: String = "Configuration"
+    static let title_AttributeName: String = "title"
 
 }

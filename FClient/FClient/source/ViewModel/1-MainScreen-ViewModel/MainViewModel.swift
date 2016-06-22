@@ -16,6 +16,95 @@ protocol MainViewModelConsumable: class {
     var viewModel: MainViewModel? { get }
 }
 
+// MARK: - Currency enum
+
+enum Currency {
+    // initial
+    case EURUSD
+    case GBPUSD
+    case USDCHF
+    case USDJPY
+    
+    // additional
+    case AUDUSD
+    case USDCAD
+    case GBPJPY
+    case EURGBP
+    case EURJPY
+    case AUDCAD
+    
+    
+    func name() -> String {
+        switch self {
+        // inital
+        case EURUSD:
+            return "EURUSD"
+        
+        case GBPUSD:
+            return "GBPUSD"
+            
+        case USDCHF:
+            return "USDCHF"
+            
+        case USDJPY:
+            return "USDJPY"
+            
+        // additional
+        case AUDUSD:
+            return "AUDUSD"
+            
+        case USDCAD:
+            return "USDCAD"
+            
+        case GBPJPY:
+            return "GBPJPY"
+            
+        case EURGBP:
+            return "EURGBP"
+            
+        case EURJPY:
+            return "EURJPY"
+            
+        case AUDCAD:
+            return "AUDCAD"
+        }
+    }
+    
+    static func initialCurrencies() -> [Currency] {
+        return [
+            EURUSD,
+            GBPUSD,
+            USDCHF,
+            USDJPY
+        ]
+    }
+    
+    static func allCurrencies() -> [Currency] {
+        return [
+            EURUSD,
+            GBPUSD,
+            USDCHF,
+            USDJPY,
+            AUDUSD,
+            USDCAD,
+            GBPJPY,
+            EURGBP,
+            EURJPY,
+            AUDCAD
+        ]
+    }
+}
+
+// MARK: - ChangeOrientation enum
+
+enum ChangeOrientation: UInt {
+    case Up = 1
+    case Down = 2
+    case Unchanged = 3
+}
+
+// MARK: - MainViewModel
+
 class MainViewModel: ViewModelable {
     
     // MARK: ViewType

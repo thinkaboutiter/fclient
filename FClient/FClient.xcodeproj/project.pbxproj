@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		4F3216841D1AFD5B00AE0C97 /* ViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216831D1AFD5B00AE0C97 /* ViewModelable.swift */; };
 		4F3216871D1AFEBA00AE0C97 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216861D1AFEBA00AE0C97 /* MainViewModel.swift */; };
+		4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216881D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift */; };
+		4F32168D1D1B08DD00AE0C97 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216891D1B08DD00AE0C97 /* Quote.swift */; };
+		4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F32168A1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift */; };
+		4F32168F1D1B08DD00AE0C97 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F32168B1D1B08DD00AE0C97 /* Configuration.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
 		4FFE8D951D19A9B100DC3F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D931D19A9B100DC3F7B /* Main.storyboard */; };
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
@@ -24,6 +28,10 @@
 		3ECCA686AF399B914A84E66F /* Pods-FClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FClient/Pods-FClient.debug.xcconfig"; sourceTree = "<group>"; };
 		4F3216831D1AFD5B00AE0C97 /* ViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelable.swift; sourceTree = "<group>"; };
 		4F3216861D1AFEBA00AE0C97 /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		4F3216881D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quote+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4F3216891D1B08DD00AE0C97 /* Quote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
+		4F32168A1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Configuration+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4F32168B1D1B08DD00AE0C97 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FFE8D941D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -176,6 +184,10 @@
 		4FFE8DAF1D19BB6800DC3F7B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				4F32168B1D1B08DD00AE0C97 /* Configuration.swift */,
+				4F32168A1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift */,
+				4F3216891D1B08DD00AE0C97 /* Quote.swift */,
+				4F3216881D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -321,8 +333,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */,
+				4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */,
+				4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */,
 				4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */,
 				4F3216841D1AFD5B00AE0C97 /* ViewModelable.swift in Sources */,
+				4F32168D1D1B08DD00AE0C97 /* Quote.swift in Sources */,
+				4F32168F1D1B08DD00AE0C97 /* Configuration.swift in Sources */,
 				4FFE8DAA1D19ACE400DC3F7B /* BaseViewController.swift in Sources */,
 				4FFE8DB21D19BB7F00DC3F7B /* Model.xcdatamodeld in Sources */,
 				4F3216871D1AFEBA00AE0C97 /* MainViewModel.swift in Sources */,

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F13D6201D1C45A500ECB878 /* BaseWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13D61F1D1C45A500ECB878 /* BaseWebService.swift */; };
+		4F13D6221D1C477A00ECB878 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13D6211D1C477A00ECB878 /* AppConstants.swift */; };
+		4F13D6241D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13D6231D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift */; };
 		4F3216841D1AFD5B00AE0C97 /* ViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216831D1AFD5B00AE0C97 /* ViewModelable.swift */; };
 		4F3216871D1AFEBA00AE0C97 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216861D1AFEBA00AE0C97 /* MainViewModel.swift */; };
 		4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3216881D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift */; };
@@ -26,6 +29,9 @@
 /* Begin PBXFileReference section */
 		0A47CD5BDDF07AAE5800ABE3 /* Pods-FClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-FClient/Pods-FClient.release.xcconfig"; sourceTree = "<group>"; };
 		3ECCA686AF399B914A84E66F /* Pods-FClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FClient/Pods-FClient.debug.xcconfig"; sourceTree = "<group>"; };
+		4F13D61F1D1C45A500ECB878 /* BaseWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWebService.swift; sourceTree = "<group>"; };
+		4F13D6211D1C477A00ECB878 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		4F13D6231D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetQuotesBySymbolsWebService.swift; sourceTree = "<group>"; };
 		4F3216831D1AFD5B00AE0C97 /* ViewModelable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModelable.swift; sourceTree = "<group>"; };
 		4F3216861D1AFEBA00AE0C97 /* MainViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		4F3216881D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Quote+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -145,6 +151,8 @@
 		4FFE8DA61D19ABA500DC3F7B /* WebServices */ = {
 			isa = PBXGroup;
 			children = (
+				4F13D61F1D1C45A500ECB878 /* BaseWebService.swift */,
+				4F13D6231D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift */,
 			);
 			path = WebServices;
 			sourceTree = "<group>";
@@ -152,6 +160,7 @@
 		4FFE8DA71D19ABD500DC3F7B /* AppUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				4F13D6211D1C477A00ECB878 /* AppConstants.swift */,
 			);
 			path = AppUtilities;
 			sourceTree = "<group>";
@@ -336,8 +345,11 @@
 				4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */,
 				4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */,
 				4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */,
+				4F13D6201D1C45A500ECB878 /* BaseWebService.swift in Sources */,
 				4F3216841D1AFD5B00AE0C97 /* ViewModelable.swift in Sources */,
 				4F32168D1D1B08DD00AE0C97 /* Quote.swift in Sources */,
+				4F13D6221D1C477A00ECB878 /* AppConstants.swift in Sources */,
+				4F13D6241D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift in Sources */,
 				4F32168F1D1B08DD00AE0C97 /* Configuration.swift in Sources */,
 				4FFE8DAA1D19ACE400DC3F7B /* BaseViewController.swift in Sources */,
 				4FFE8DB21D19BB7F00DC3F7B /* Model.xcdatamodeld in Sources */,

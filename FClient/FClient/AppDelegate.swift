@@ -92,8 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         break
                     }
                     
-                    newQuote.currency = quoteSymbol.stringValue()
-                    newQuote.displayName = quoteSymbol.stringValue()
+                    newQuote.currency = quoteSymbol.rawValue
+                    newQuote.displayName = quoteSymbol.rawValue
                     
                     // set relation
                     newQuote.configuration = newConfiguration

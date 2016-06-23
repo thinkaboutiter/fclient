@@ -18,7 +18,7 @@ protocol MainViewModelConsumable: class {
 
 // MARK: - QuoteSymbol enum
 
-enum QuoteSymbol {
+enum QuoteSymbol: String {
     // initial
     case EURUSD
     case GBPUSD
@@ -32,43 +32,6 @@ enum QuoteSymbol {
     case EURGBP
     case EURJPY
     case AUDCAD
-    
-    
-    func stringValue() -> String {
-        switch self {
-        // inital
-        case EURUSD:
-            return "EURUSD"
-        
-        case GBPUSD:
-            return "GBPUSD"
-            
-        case USDCHF:
-            return "USDCHF"
-            
-        case USDJPY:
-            return "USDJPY"
-            
-        // additional
-        case AUDUSD:
-            return "AUDUSD"
-            
-        case USDCAD:
-            return "USDCAD"
-            
-        case GBPJPY:
-            return "GBPJPY"
-            
-        case EURGBP:
-            return "EURGBP"
-            
-        case EURJPY:
-            return "EURJPY"
-            
-        case AUDCAD:
-            return "AUDCAD"
-        }
-    }
     
     static func initialQuoteSymbols() -> [QuoteSymbol] {
         return [

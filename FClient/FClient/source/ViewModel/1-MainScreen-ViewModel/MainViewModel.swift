@@ -148,8 +148,10 @@ class MainViewModel: ViewModelable {
     }
     
     private func handleWebServiceResponse(response: [QuoteResource], completion: (error: NSError?) -> Void) {
-        Logger.logSuccess().logMessage("\(self) \(#line) \(#function) » Recieved \(response.count) \(String(QuoteResource.self)) objects")
         
         // TODO: Implement caching of QuoteResource to database
+        
+        // succes completion
+        completion(error: nil)
     }
 }

@@ -63,10 +63,26 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     override func configureUI() {
         self.title = self.viewModel?.title
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.fetchQuotes()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: Actions
+    
+    @IBAction func refreshButtonTapped(sender: UIButton) {
+        self.fetchQuotes()
     }
     
     // MARK: Network

@@ -65,23 +65,15 @@ class GetQuotesBySymbolsWebService: BaseWebService {
                 ],
                 encoding: self.requestParametersEncoding(),
                 headers: self.requestHeaders())
-            .responseJSON(completionHandler: { (response: Response<AnyObject, NSError>) in
+            .response(completionHandler: { (request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, error: NSError?) in
                 
                 // log response objects
-                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » request:").logObject(response.request)
-                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » allHTTPHeaderFields:").logObject(response.request?.allHTTPHeaderFields)
-                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » response:").logObject(response.response)
-                
-                // check for success
-                guard response.result.isSuccess else {
-                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Error fetching data").logObject(response.result.error)
-                    
-                    completion(error: response.result.error, resources: nil)
-                    return
-                }
+                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » request:").logObject(request)
+                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » request.allHTTPHeaderFields:").logObject(request?.allHTTPHeaderFields)
+                Logger.logNetwork().logMessage("\(self) \(#line) \(#function) » response:").logObject(response)
                 
                 // check response object
-                guard let validResponse: NSHTTPURLResponse = response.response else {
+                guard let valid_Response: NSHTTPURLResponse = response else {
                     Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid respone object")
                     
                     // create error object
@@ -89,7 +81,7 @@ class GetQuotesBySymbolsWebService: BaseWebService {
                         domain: GetQuotesBySymbolsWebServiceError.domain(),
                         code: 418,
                         userInfo: [
-                            NSLocalizedDescriptionKey: NSLocalizedString("Invalid respone object", comment: "GetQuotesBySymbolsWebServiceError description")
+                            NSLocalizedDescriptionKey: NSLocalizedString("Invalid response object", comment: "GetQuotesBySymbolsWebServiceError description")
                         ])
                     
                     completion(error: error, resources: nil)
@@ -97,42 +89,103 @@ class GetQuotesBySymbolsWebService: BaseWebService {
                 }
                 
                 // check status code
-                guard 200...299 ~= validResponse.statusCode else {
-                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid status code: \(validResponse.statusCode)")
+                guard 200...299 ~= valid_Response.statusCode else {
+                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid status code: \(valid_Response.statusCode)")
                     
                     // create error object
                     let error: NSError = NSError(
                         domain: GetQuotesBySymbolsWebServiceError.domain(),
-                        code: validResponse.statusCode,
+                        code: valid_Response.statusCode,
                         userInfo: [
-                            NSLocalizedDescriptionKey: NSLocalizedString("Wrong status code: \(validResponse.statusCode)", comment: "GetQuotesBySymbolsWebServiceError description")
+                            NSLocalizedDescriptionKey: NSLocalizedString("Wrong status code: \(valid_Response.statusCode)", comment: "GetQuotesBySymbolsWebServiceError description")
                         ])
                     
                     completion(error: error, resources: nil)
                     return
                 }
                 
-                // check result object
-                guard let validResultObject: [[String: AnyObject]] = response.result.value as? [[String: AnyObject]] else {
-                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid result object")
+                // TODO: Save session cookie
+                
+                // check data
+                guard let valid_Data: NSData = data else {
+                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid data received")
                     
                     // create error object
                     let error: NSError = NSError(
                         domain: GetQuotesBySymbolsWebServiceError.domain(),
-                        code: 418,
+                        code: valid_Response.statusCode,
                         userInfo: [
-                            NSLocalizedDescriptionKey: NSLocalizedString("Invalid result object", comment: "GetQuotesBySymbolsWebServiceError description")
+                            NSLocalizedDescriptionKey: NSLocalizedString("Invalid data received", comment: "GetQuotesBySymbolsWebServiceError description")
                         ])
                     
                     completion(error: error, resources: nil)
                     return
                 }
                 
-                let resources: [QuoteResource] = self.parseResponse(validResultObject)
+                // check serialized object
+                guard let valid_SerializedJSON: AnyObject = self.serializeData(valid_Data) else {
+                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to serialize data")
+                    
+                    // create error object
+                    let error: NSError = NSError(
+                        domain: GetQuotesBySymbolsWebServiceError.domain(),
+                        code: valid_Response.statusCode,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: NSLocalizedString("Unable to serialize data", comment: "GetQuotesBySymbolsWebServiceError description")
+                        ])
+                    
+                    completion(error: error, resources: nil)
+                    return
+                }
+                
+                guard let valid_JSONResponse: [[String: AnyObject]] = valid_SerializedJSON as? [[String: AnyObject]] else {
+                    Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to serialize received data")
+                    
+                    // create error object
+                    let error: NSError = NSError(
+                        domain: GetQuotesBySymbolsWebServiceError.domain(),
+                        code: valid_Response.statusCode,
+                        userInfo: [
+                            NSLocalizedDescriptionKey: NSLocalizedString(" Unable to serialize received data", comment: "GetQuotesBySymbolsWebServiceError description")
+                        ])
+                    
+                    completion(error: error, resources: nil)
+                    return
+                }
+                
+                let resources: [QuoteResource] = self.parseResponse(valid_JSONResponse)
                 
                 // send success completion
                 completion(error: nil, resources: resources)
             })
+    }
+    
+    private func serializeData(data: NSData) -> AnyObject? {
+        
+        // check dataString
+        guard let valid_DataString: String = String(data: data, encoding: NSUTF8StringEncoding) else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to decode data to string")
+            return nil
+        }
+        
+        let charactersToRemove: [Character] = ["(", ")"]
+        let formattedString: String = valid_DataString.removeCharacters(charactersToRemove)
+        
+        // check JSONData
+        guard let valid_JSONData: NSData = formattedString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to encode data")
+            return nil
+        }
+        
+        // try to create JSON object
+        do {
+            let jsonObject: AnyObject = try NSJSONSerialization.JSONObjectWithData(valid_JSONData, options: .AllowFragments)
+            return jsonObject
+        }
+        catch {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Serializing error: \(error)")
+            return nil
+        }
     }
     
     private func parseResponse(response: [[String: AnyObject]]) -> [QuoteResource] {

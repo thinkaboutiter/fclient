@@ -67,6 +67,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         // setup quotesTableView
         self.quotesTableView.delegate = self
         self.quotesTableView.dataSource = self
+        self.quotesTableView.separatorStyle = .None
     }
     
     override func configureUI() {
@@ -226,6 +227,9 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        // update actionConsumableDelegate
+        valid_Cell.updateActionConsumableDelegate(self)
+        
         return self.configuredQuoteTableViewCell(valid_Cell, atIndexPath: indexPath)
     }
     
@@ -245,4 +249,19 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     
+}
+
+extension MainViewController: QuoteTableViewCellActionConsumable {
+    
+    func quoteTableViewCellSellButtonTapped(sender: QuoteTableViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.bidLabel.text) { (action) in
+            // completion if needed
+        }
+    }
+    
+    func quoteTableViewCellBuyButtonTapped(sender: QuoteTableViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
+            // completion if needed
+        }
+    }
 }

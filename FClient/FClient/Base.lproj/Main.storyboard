@@ -25,10 +25,10 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cAV-h7-zgu" id="uQV-0q-JYl">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8JL-0G-HEM" userLabel="SymbolView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8JL-0G-HEM" userLabel="SymbolHolderView">
                                                     <rect key="frame" x="0.0" y="0.0" width="75" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Symbol" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="luh-LC-lc7" userLabel="SymbolLabel">
@@ -45,7 +45,7 @@
                                                         <constraint firstItem="luh-LC-lc7" firstAttribute="centerY" secondItem="8JL-0G-HEM" secondAttribute="centerY" id="gD9-cX-2nk"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1RN-31-HeM" userLabel="BidView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1RN-31-HeM" userLabel="BidHolderView">
                                                     <rect key="frame" x="75" y="0.0" width="150" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5T-an-q9T" userLabel="BidLabel">
@@ -84,7 +84,7 @@
                                                         <constraint firstItem="7cX-Fc-arK" firstAttribute="centerY" secondItem="1RN-31-HeM" secondAttribute="centerY" id="sIB-Kh-HhF"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrB-BM-w81" userLabel="AskView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LrB-BM-w81" userLabel="AskHolderView">
                                                     <rect key="frame" x="225" y="0.0" width="150" height="44"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ask" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LIO-ur-6Da" userLabel="AskLabel">
@@ -140,12 +140,15 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="askHolderView" destination="LrB-BM-w81" id="7xU-dP-D14"/>
                                             <outlet property="askLabel" destination="LIO-ur-6Da" id="8KL-nV-wSR"/>
                                             <outlet property="askOrientationImageView" destination="baO-6r-KJq" id="Lu7-dB-ZzY"/>
+                                            <outlet property="bidHolderView" destination="1RN-31-HeM" id="RzG-NC-jf4"/>
                                             <outlet property="bidLabel" destination="q5T-an-q9T" id="LRT-zi-a9F"/>
                                             <outlet property="bidOrientationImageView" destination="0QS-Oz-EXY" id="yW3-Gv-e5A"/>
                                             <outlet property="buyButton" destination="aS5-iP-6HO" id="NgQ-3e-KMR"/>
                                             <outlet property="sellButton" destination="7cX-Fc-arK" id="vLn-ze-zBR"/>
+                                            <outlet property="symbolHolderView" destination="8JL-0G-HEM" id="J1W-FB-M79"/>
                                             <outlet property="symbolLabel" destination="luh-LC-lc7" id="mQy-Bi-iVx"/>
                                         </connections>
                                     </tableViewCell>

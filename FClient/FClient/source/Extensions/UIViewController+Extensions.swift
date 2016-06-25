@@ -54,8 +54,8 @@ extension UIViewController {
      - parameter actionHandler: custom handler
      */
     func showAlertWithTitle(
-        alertTitle: String = NSLocalizedString("Alert", comment: "Generic alert title"),
-        alertMessage: String,
+        alertTitle: String? = NSLocalizedString("Alert", comment: "Generic alert title"),
+        alertMessage: String?,
         actionTitle: String = NSLocalizedString("OK", comment: "Generic alertActionButton title"),
         actionHandler: ((action: UIAlertAction) -> Void)? = nil)
     {

@@ -70,10 +70,23 @@ enum QuoteSymbol: String {
 
 // MARK: - ChangeOrientation enum
 
-enum ChangeOrientation: UInt {
+enum ChangeOrientation: Int {
     case Up = 1
     case Down = 2
     case Unchanged = 3
+    
+    func orientationColor() -> UIColor {
+        switch self {
+        case .Up:
+            return UIColor.quoteChangeDirectionUpColor()
+        
+        case .Down:
+            return UIColor.quoteChangeDirectionDownColor()
+            
+        case .Unchanged:
+            return UIColor.quoteChangeDirecionUnchangedColor()
+        }
+    }
 }
 
 // MARK: - MainViewModel

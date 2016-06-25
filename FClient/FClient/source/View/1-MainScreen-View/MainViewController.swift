@@ -22,6 +22,14 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         }
     }
     
+    @IBOutlet weak var quotesTableView: QuotesTableView!
+    
+    private lazy var frc: NSFetchedResultsController = {
+        let lazy_Frc: NSFetchedResultsController = Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: false, withPredicate: nil, groupBy: nil, delegate: self)
+        
+        return lazy_Frc
+    }()
+    
     // MARK: Cascaded accessors
     
     func updateViewModel(viewModel: MainViewModel) {
@@ -56,8 +64,12 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // setup quotesTableView
+        self.quotesTableView.delegate = self
+        self.quotesTableView.dataSource = self
+        self.quotesTableView.separatorStyle = .None
         
-//        self.checkCoreDataObjects()
+        self.quotesTableView.registerClass(QuotesTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: String(QuotesTableViewHeaderFooterView.self))
     }
     
     override func configureUI() {
@@ -121,18 +133,146 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     private func refreshUI() {
         Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
-    }
-
-/*
-    // testing
-    private func checkCoreDataObjects() {
         
-        guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) else {
-            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to find \(String(Configuration.self)) object in database")
+        self.quotesTableView.reloadData()
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate protocol
+
+extension MainViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.quotesTableView.beginUpdates()
+    }
+    
+    func controller(
+        controller: NSFetchedResultsController,
+        didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
+        atIndex sectionIndex: Int,
+        forChangeType type: NSFetchedResultsChangeType)
+    {
+        switch type {
+        case .Insert:
+            self.quotesTableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            
+        case .Delete:
+            self.quotesTableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            
+        default:
+            break
+        }
+    }
+    
+    func controller(
+        controller: NSFetchedResultsController,
+        didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: NSIndexPath?,
+        forChangeType type: NSFetchedResultsChangeType,
+        newIndexPath: NSIndexPath?)
+    {
+        guard let valid_IndexPath: NSIndexPath = indexPath else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid indexPaht parameter")
             return
         }
         
-        Logger.logCache().logMessage("\(self) \(#line) \(#function) » \(String(Configuration.self)) object found").logObject(valid_Configuration)
+        guard let valid_NewIndexPath: NSIndexPath = newIndexPath else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid newIndexPaht parameter")
+            return
+        }
+        
+        switch type {
+        case .Insert:
+            self.quotesTableView.insertRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+            
+        case .Delete:
+            self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+            
+        case .Move:
+            if (valid_IndexPath.section != valid_NewIndexPath.section || valid_IndexPath.row != valid_NewIndexPath.row) {
+                self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                self.quotesTableView.insertRowsAtIndexPaths([valid_NewIndexPath], withRowAnimation: .Fade)
+                
+                self.quotesTableView.reloadSections(NSIndexSet(index: valid_IndexPath.section), withRowAnimation: .Fade)
+                self.quotesTableView.reloadSections(NSIndexSet(index: valid_NewIndexPath.section), withRowAnimation: .Fade)
+            }
+        
+        case .Update:
+            self.quotesTableView.reloadRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+        }
     }
- */
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.quotesTableView.endUpdates()
+    }
+}
+
+// MARK: - UITableViewDataSource protocol
+
+extension MainViewController: UITableViewDataSource {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.frc.sections where valid_FrcSections.count > 0 else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid sections object on \(String(NSFetchedResultsController.self)) object")
+            return 0
+        }
+        
+        let sectionInfo: NSFetchedResultsSectionInfo = valid_FrcSections[0]
+        
+        return sectionInfo.numberOfObjects
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let valid_Cell: QuoteTableViewCell = tableView.dequeueReusableCellWithIdentifier(String(QuoteTableViewCell.self), forIndexPath: indexPath) as? QuoteTableViewCell else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to dequeue \(String(QuoteTableViewCell.self)) object")
+            return UITableViewCell()
+        }
+        
+        // update actionConsumableDelegate
+        valid_Cell.updateActionConsumableDelegate(self)
+        
+        return self.configuredQuoteTableViewCell(valid_Cell, atIndexPath: indexPath)
+    }
+    
+    private func configuredQuoteTableViewCell(cell: QuoteTableViewCell, atIndexPath indexPath: NSIndexPath) -> QuoteTableViewCell {
+        guard let valid_Quote: Quote = self.frc.objectAtIndexPath(indexPath) as? Quote else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to fetch \(String(Quote.self)) object")
+            return cell
+        }
+        
+        cell.updateUIWithQuote(valid_Quote)
+        
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate protocol
+
+extension MainViewController: UITableViewDelegate {
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView: QuotesTableViewHeaderFooterView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(String(QuotesTableViewHeaderFooterView.self)) as? QuotesTableViewHeaderFooterView else {
+            return nil
+        }
+        
+        return headerView
+    }
+}
+
+// MARK: - QuoteTableViewCellActionConsumable protocol
+
+extension MainViewController: QuoteTableViewCellActionConsumable {
+    
+    func quoteTableViewCellSellButtonTapped(sender: QuoteTableViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.bidLabel.text) { (action) in
+            // completion if needed
+        }
+    }
+    
+    func quoteTableViewCellBuyButtonTapped(sender: QuoteTableViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
+            // completion if needed
+        }
+    }
 }

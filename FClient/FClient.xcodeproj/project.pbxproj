@@ -22,6 +22,7 @@
 		4F391C4F1D1EB36C0077B6FB /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */; };
 		4F391C511D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C501D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift */; };
 		4F391C531D1ED6EC0077B6FB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */; };
+		4F391C551D1EDD9E0077B6FB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
 		4FFE8D951D19A9B100DC3F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D931D19A9B100DC3F7B /* Main.storyboard */; };
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
 		4F391C501D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
+		4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FFE8D941D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -190,10 +192,11 @@
 		4FFE8DA81D19ABD500DC3F7B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4F391C471D1E68BE0077B6FB /* UIViewController+Extensions.swift */,
-				4F391C491D1E8B3E0077B6FB /* String+Extensions.swift */,
 				4F391C501D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift */,
+				4F391C491D1E8B3E0077B6FB /* String+Extensions.swift */,
+				4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */,
 				4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */,
+				4F391C471D1E68BE0077B6FB /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				4F391C531D1ED6EC0077B6FB /* UILabel+Extensions.swift in Sources */,
 				4F391C4D1D1EB3300077B6FB /* QuotesTableView.swift in Sources */,
 				4F32168D1D1B08DD00AE0C97 /* Quote.swift in Sources */,
+				4F391C551D1EDD9E0077B6FB /* UIColor+Extensions.swift in Sources */,
 				4F13D6221D1C477A00ECB878 /* AppConstants.swift in Sources */,
 				4F13D6241D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift in Sources */,
 				4F32168F1D1B08DD00AE0C97 /* Configuration.swift in Sources */,

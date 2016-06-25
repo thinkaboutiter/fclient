@@ -78,13 +78,13 @@ enum ChangeOrientation: Int {
     func orientationColor() -> UIColor {
         switch self {
         case .Up:
-            return UIColor.greenColor()
+            return UIColor.quoteChangeDirectionUpColor()
         
         case .Down:
-            return UIColor.redColor()
+            return UIColor.quoteChangeDirectionDownColor()
             
         case .Unchanged:
-            return UIColor.blackColor()
+            return UIColor.quoteChangeDirecionUnchangedColor()
         }
     }
 }

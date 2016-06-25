@@ -53,6 +53,10 @@ class QuoteTableViewCell: UITableViewCell {
         self.symbolHolderView.configureAsQuoteHolderView()
         self.bidHolderView.configureAsQuoteHolderView()
         self.askHolderView.configureAsQuoteHolderView()
+        
+        // configure buttons
+        self.sellButton.configureAsQuoteActionButtonWithTitle("Sell")
+        self.buyButton.configureAsQuoteActionButtonWithTitle("Buy")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

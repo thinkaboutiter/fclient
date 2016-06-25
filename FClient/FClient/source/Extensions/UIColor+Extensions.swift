@@ -88,4 +88,8 @@ extension UIColor {
     class func quoteHolderViewBorderColor() -> UIColor {
         return UIColor.colorWithRGB(0x7F7F7F)
     }
+    
+    class func quoteActionButtonBackgroundColor() -> UIColor {
+        return UIColor.colorWithRGB(0x4F4F4F)
+    }
 }

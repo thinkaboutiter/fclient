@@ -149,9 +149,22 @@ class MainViewModel: ViewModelable {
     
     private func handleWebServiceResponse(response: [QuoteResource], completion: (error: NSError?) -> Void) {
         
-        // TODO: Implement caching of QuoteResource to database
+        // cache QuoteResource to database
+        // dispatch group
+        let saveGroup: dispatch_group_t = dispatch_group_create()
         
-        // succes completion
-        completion(error: nil)
+        for quoteResource in response {
+            dispatch_group_enter(saveGroup)
+            
+            // create Quote object
+            Quote.createOrUpdateWithResource(quoteResource, completion: { 
+                dispatch_group_leave(saveGroup)
+            })
+        }
+        
+        // when ready proceed with completion
+        dispatch_group_notify(saveGroup, dispatch_get_main_queue(), {
+            completion(error: nil)
+        })
     }
 }

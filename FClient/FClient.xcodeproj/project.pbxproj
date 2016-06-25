@@ -18,6 +18,8 @@
 		4F32168F1D1B08DD00AE0C97 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F32168B1D1B08DD00AE0C97 /* Configuration.swift */; };
 		4F391C481D1E68BE0077B6FB /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C471D1E68BE0077B6FB /* UIViewController+Extensions.swift */; };
 		4F391C4A1D1E8B3E0077B6FB /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C491D1E8B3E0077B6FB /* String+Extensions.swift */; };
+		4F391C4D1D1EB3300077B6FB /* QuotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C4C1D1EB3300077B6FB /* QuotesTableView.swift */; };
+		4F391C4F1D1EB36C0077B6FB /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
 		4FFE8D951D19A9B100DC3F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D931D19A9B100DC3F7B /* Main.storyboard */; };
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 		4F32168B1D1B08DD00AE0C97 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		4F391C471D1E68BE0077B6FB /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C491D1E8B3E0077B6FB /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		4F391C4C1D1EB3300077B6FB /* QuotesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotesTableView.swift; sourceTree = "<group>"; };
+		4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FFE8D941D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,6 +77,16 @@
 			);
 			path = "1-MainScreen-ViewModel";
 			sourceTree = "<group>";
+		};
+		4F391C4B1D1EB2C20077B6FB /* _MainScreenUI */ = {
+			isa = PBXGroup;
+			children = (
+				4F391C4C1D1EB3300077B6FB /* QuotesTableView.swift */,
+				4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */,
+			);
+			name = _MainScreenUI;
+			path = "FClient/source/View/1-MainScreen-View/_MainScreenUI";
+			sourceTree = SOURCE_ROOT;
 		};
 		4FFE8D831D19A9B100DC3F7B = {
 			isa = PBXGroup;
@@ -181,6 +195,7 @@
 		4FFE8DAB1D19AD3A00DC3F7B /* 1-MainScreen-View */ = {
 			isa = PBXGroup;
 			children = (
+				4F391C4B1D1EB2C20077B6FB /* _MainScreenUI */,
 				4FFE8DAC1D19ADFF00DC3F7B /* MainViewController.swift */,
 			);
 			name = "1-MainScreen-View";
@@ -352,7 +367,9 @@
 				4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */,
 				4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */,
 				4F13D6201D1C45A500ECB878 /* BaseWebService.swift in Sources */,
+				4F391C4F1D1EB36C0077B6FB /* QuoteTableViewCell.swift in Sources */,
 				4F3216841D1AFD5B00AE0C97 /* ViewModelable.swift in Sources */,
+				4F391C4D1D1EB3300077B6FB /* QuotesTableView.swift in Sources */,
 				4F32168D1D1B08DD00AE0C97 /* Quote.swift in Sources */,
 				4F13D6221D1C477A00ECB878 /* AppConstants.swift in Sources */,
 				4F13D6241D1C55A600ECB878 /* GetQuotesBySymbolsWebService.swift in Sources */,

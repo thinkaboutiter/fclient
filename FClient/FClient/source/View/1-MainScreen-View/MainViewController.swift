@@ -62,6 +62,8 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     override func configureUI() {
         self.title = self.viewModel?.title
+        
+        self.addRefreshButton()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -79,9 +81,16 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         // Dispose of any resources that can be recreated.
     }
     
+    private func addRefreshButton() {
+        if let _ = self.navigationController {
+            let refreshButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(self.refreshButtonTapped(_:)))
+            self.navigationItem.rightBarButtonItem = refreshButton
+        }
+    }
+    
     // MARK: Actions
     
-    @IBAction func refreshButtonTapped(sender: UIButton) {
+    @objc private func refreshButtonTapped(sender: UIButton) {
         self.fetchQuotes()
     }
     

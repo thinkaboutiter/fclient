@@ -55,15 +55,24 @@ class QuoteTableViewCell: UITableViewCell {
     
     func updateUIWithQuote(quote: Quote)  {
         self.symbolLabel.text = quote.displayName
-        self.bidLabel.text = quote.bid
+        
+        guard let valid_ChangeOrientationNumber: NSNumber = quote.changeOrientation,
+            let valid_ChangeOrientation: ChangeOrientation = ChangeOrientation(rawValue: valid_ChangeOrientationNumber.integerValue)
+        else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid changeOrientation value found on \(String(Quote.self)) object")
+            
+            // update labels with no custom formatting
+            self.bidLabel.text = quote.bid
+            self.askLabel.text = quote.ask
+            
+            return
+        }
+        
+        self.bidLabel.configureAsQuoteLabelWithText(quote.bid, andChangeOrientation: valid_ChangeOrientation)
+        self.askLabel.configureAsQuoteLabelWithText(quote.ask, andChangeOrientation: valid_ChangeOrientation)
         
         // TODO: configure bidOrientationImageView
-        
-        self.askLabel.text = quote.ask
-        
         // TODO: configure askOrientationImageView
-        
-        // TODO: configure colors using `changeOrientation` on passed quote parameter
     }
     
     // MARK: Actions

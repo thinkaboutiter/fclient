@@ -23,7 +23,7 @@ class Quote: NSManagedObject {
         
         MagicalRecord.saveWithBlock({ (context: NSManagedObjectContext) in
             // fetch configurtation
-            guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) else {
+            guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle, inContext: context) else {
                 Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to find \(String(Configuration.self)) object in database")
                 return
             }

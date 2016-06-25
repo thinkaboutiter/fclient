@@ -11,9 +11,9 @@ import UIKit
 
 extension UIView {
     
-    func configureAsQuoteHolderView() -> UIView {
+    func configureAsQuoteHolderViewWithBorderColor(color: UIColor) -> UIView {
         self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.quoteHolderViewBorderColor().CGColor
+        self.layer.borderColor = color.CGColor
         self.clipsToBounds = true
         
         return self

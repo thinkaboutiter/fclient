@@ -68,6 +68,8 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         self.quotesTableView.delegate = self
         self.quotesTableView.dataSource = self
         self.quotesTableView.separatorStyle = .None
+        
+        self.quotesTableView.registerClass(QuotesTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: String(QuotesTableViewHeaderFooterView.self))
     }
     
     override func configureUI() {
@@ -249,7 +251,16 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView: QuotesTableViewHeaderFooterView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(String(QuotesTableViewHeaderFooterView.self)) as? QuotesTableViewHeaderFooterView else {
+            return nil
+        }
+        
+        return headerView
+    }
 }
+
+// MARK: - QuoteTableViewCellActionConsumable protocol
 
 extension MainViewController: QuoteTableViewCellActionConsumable {
     

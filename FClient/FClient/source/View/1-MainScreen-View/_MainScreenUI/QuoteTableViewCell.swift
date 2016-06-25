@@ -50,9 +50,9 @@ class QuoteTableViewCell: UITableViewCell {
         self.selectionStyle = .None
         
         // configure holderViews
-        self.symbolHolderView.configureAsQuoteHolderView()
-        self.bidHolderView.configureAsQuoteHolderView()
-        self.askHolderView.configureAsQuoteHolderView()
+        self.symbolHolderView.configureAsQuoteHolderViewWithBorderColor(UIColor.quoteHolderViewBorderColor())
+        self.bidHolderView.configureAsQuoteHolderViewWithBorderColor(UIColor.quoteHolderViewBorderColor())
+        self.askHolderView.configureAsQuoteHolderViewWithBorderColor(UIColor.quoteHolderViewBorderColor())
         
         // configure buttons
         self.sellButton.configureAsQuoteActionButtonWithTitle("Sell")

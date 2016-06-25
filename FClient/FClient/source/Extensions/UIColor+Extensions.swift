@@ -92,4 +92,8 @@ extension UIColor {
     class func quoteActionButtonBackgroundColor() -> UIColor {
         return UIColor.colorWithRGB(0x4F4F4F)
     }
+    
+    class func quoteSectionHeaderViewBackgroundColor() -> UIColor {
+        return UIColor.colorWithRGB(0x0866EE)
+    }
 }

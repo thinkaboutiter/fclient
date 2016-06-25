@@ -16,6 +16,16 @@ protocol MainViewModelConsumable: class {
     var viewModel: MainViewModel? { get }
 }
 
+// MARK: - MainViewModelError enum
+
+enum MainViewModelError: ErrorType {
+    case GeneralError(error: NSError)
+    
+    static func domain() -> String {
+        return "MainViewModelErrorDomain"
+    }
+}
+
 // MARK: - QuoteSymbol enum
 
 enum QuoteSymbol: String {
@@ -82,11 +92,19 @@ class MainViewModel: ViewModelable {
     
     // view
     private(set) weak var view: MainViewModel.ViewType?
+    private(set) var quoteSymbols: [QuoteSymbol] = QuoteSymbol.initialQuoteSymbols()
+    private lazy var getQuotesBySymbolsWebService: GetQuotesBySymbolsWebService = {
+       return GetQuotesBySymbolsWebService()
+    }()
     
     // MARK: Cascaded accessors
     
     func updateView(view: ViewType) {
         self.view = view
+    }
+    
+    func updateQuoteSymbols(newValue: [QuoteSymbol]) {
+        self.quoteSymbols = newValue
     }
     
     // MARK: Initialization
@@ -97,5 +115,41 @@ class MainViewModel: ViewModelable {
     
     deinit {
         Logger.logInfo().logMessage("\(self) \(#line) \(#function) » \(String(MainViewModel.self)) deinitialized")
+    }
+    
+    // MARK: - Network
+    
+    func fetchQuotesForSymbols(quoteSymbols: [QuoteSymbol], completion: (error: NSError?) -> Void) {
+        // start WebService
+        self.getQuotesBySymbolsWebService.fetchQuotesForSymbols(quoteSymbols) { (error: NSError?, resources: [QuoteResource]?) in
+            
+            // check error object
+            guard error == nil else {
+                completion(error: error!)
+                return
+            }
+            
+            // check resources object
+            guard let valid_Resources: [QuoteResource] = resources else {
+                // create error object
+                let error: NSError = NSError(
+                    domain: MainViewModelError.domain(),
+                    code: 418,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: NSLocalizedString("Invalid response object", comment: "MainViewModelError localized desctiption")
+                    ])
+                
+                completion(error: error)
+                return
+            }
+            
+            self.handleWebServiceResponse(valid_Resources, completion: completion)
+        }
+    }
+    
+    private func handleWebServiceResponse(response: [QuoteResource], completion: (error: NSError?) -> Void) {
+        Logger.logSuccess().logMessage("\(self) \(#line) \(#function) » Recieved \(response.count) \(String(QuoteResource.self)) objects")
+        
+        // TODO: Implement caching of QuoteResource to database
     }
 }

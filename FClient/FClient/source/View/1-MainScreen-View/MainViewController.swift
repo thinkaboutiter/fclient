@@ -57,7 +57,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
 
         // Do any additional setup after loading the view.
         
-        self.checkCoreDataObjects()
+//        self.checkCoreDataObjects()
     }
     
     override func configureUI() {
@@ -69,7 +69,36 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Network
+    
+    private func fetchQuotes() {
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return
+        }
+        
+        valid_ViewModel.fetchQuotesForSymbols(valid_ViewModel.quoteSymbols) { (error: NSError?) in
+            
+            // check for error
+            guard error == nil else {
+                Logger.logError().logMessage("\(self) \(#line) \(#function) » unable to fetch quotes").logObject(error)
+                
+                self.showAlertForError(error!, actionHandler: { (action: UIAlertAction) in
+                    // completion if needed
+                })
+                return
+            }
+            
+            // refresh
+            self.refreshUI()
+        }
+    }
+    
+    private func refreshUI() {
+        Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
+    }
 
+/*
     // testing
     private func checkCoreDataObjects() {
         
@@ -80,4 +109,5 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         
         Logger.logCache().logMessage("\(self) \(#line) \(#function) » \(String(Configuration.self)) object found").logObject(valid_Configuration)
     }
+ */
 }

@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import ObjectMapper
 import SimpleLogger
+import MagicalRecord
 
 class Quote: NSManagedObject {
 
@@ -17,7 +18,53 @@ class Quote: NSManagedObject {
     
     static let currency_AttributeName: String = "currency"
     static let displayName_AttributeName: String = "displayName"
-
+    
+    class func createOrUpdateWithResource(resource: QuoteResource, completion: (() -> Void)? = nil) {
+        
+        MagicalRecord.saveWithBlock({ (context: NSManagedObjectContext) in
+            // fetch configurtation
+            guard let valid_Configuration: Configuration = Configuration.MR_findFirstByAttribute(Configuration.title_AttributeName, withValue: Configuration.defaultTitle) else {
+                Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to find \(String(Configuration.self)) object in database")
+                return
+            }
+            
+            // fetch or create Quote object
+            let quote: Quote = Quote.MR_findFirstOrCreateByAttribute(Quote.currency_AttributeName, withValue: resource.currency!, inContext: context)
+            
+            // update
+            quote.updateWithMappable(resource, andConfiguration: valid_Configuration)
+            
+        }) { (success: Bool, error: NSError?) in
+            // this executes on main thread
+            completion?()
+        }
+    }
+    
+    private func updateWithMappable(input: QuoteResource, andConfiguration configuration: Configuration) {
+        self.ask = input.ask
+        self.bid = input.bid
+        
+        if let _ = input.change {
+            self.change = NSNumber(double: input.change!)
+        }
+        
+        if let _ = input.changeOrientation {
+            self.changeOrientation = NSNumber(integer: input.changeOrientation!)
+        }
+        
+        if let _ = input.changePercentage {
+            self.changePercentage = NSNumber(double: input.changePercentage!)
+        }
+        
+        self.currency = input.currency
+        self.date = input.date
+        self.displayName = input.displayName
+        self.high = input.high
+        self.low = input.low
+        
+        // set relation
+        self.configuration = configuration
+    }
 }
 
 struct QuoteResource: Mappable {

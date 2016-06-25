@@ -161,6 +161,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jvI-Oz-XWr"/>
+                    <connections>
+                        <outlet property="quotesTableView" destination="4Qy-5O-7O4" id="iwo-XG-P4g"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

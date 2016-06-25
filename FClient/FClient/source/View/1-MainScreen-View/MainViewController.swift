@@ -22,6 +22,8 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         }
     }
     
+    @IBOutlet weak var quotesTableView: QuotesTableView!
+    
     // MARK: Cascaded accessors
     
     func updateViewModel(viewModel: MainViewModel) {

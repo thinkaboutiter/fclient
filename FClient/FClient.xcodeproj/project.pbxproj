@@ -23,6 +23,7 @@
 		4F391C511D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C501D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift */; };
 		4F391C531D1ED6EC0077B6FB /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */; };
 		4F391C551D1EDD9E0077B6FB /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */; };
+		4F391C571D1EE0860077B6FB /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
 		4FFE8D951D19A9B100DC3F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D931D19A9B100DC3F7B /* Main.storyboard */; };
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		4F391C501D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FFE8D941D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				4F391C491D1E8B3E0077B6FB /* String+Extensions.swift */,
 				4F391C541D1EDD9E0077B6FB /* UIColor+Extensions.swift */,
 				4F391C521D1ED6EC0077B6FB /* UILabel+Extensions.swift */,
+				4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */,
 				4F391C471D1E68BE0077B6FB /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
@@ -371,6 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F391C571D1EE0860077B6FB /* UIView+Extensions.swift in Sources */,
 				4F391C511D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift in Sources */,
 				4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */,
 				4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */,

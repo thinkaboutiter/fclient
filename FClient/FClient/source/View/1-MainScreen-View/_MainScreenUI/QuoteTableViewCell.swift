@@ -18,14 +18,17 @@ class QuoteTableViewCell: UITableViewCell {
     
     // MARK: Properties
     
+    @IBOutlet weak var symbolHolderView: UIView!
     @IBOutlet weak var symbolLabel: UILabel!
     
     // bidView
+    @IBOutlet weak var bidHolderView: UIView!
     @IBOutlet weak var bidLabel: UILabel!
     @IBOutlet weak var bidOrientationImageView: UIImageView!
     @IBOutlet weak var sellButton: UIButton!
     
     // askView
+    @IBOutlet weak var askHolderView: UIView!
     @IBOutlet weak var askLabel: UILabel!
     @IBOutlet weak var askOrientationImageView: UIImageView!
     @IBOutlet weak var buyButton: UIButton!
@@ -45,6 +48,11 @@ class QuoteTableViewCell: UITableViewCell {
         // Initialization code
         
         self.selectionStyle = .None
+        
+        // configure holderViews
+        self.symbolHolderView.configureAsQuoteHolderView()
+        self.bidHolderView.configureAsQuoteHolderView()
+        self.askHolderView.configureAsQuoteHolderView()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -78,14 +86,10 @@ class QuoteTableViewCell: UITableViewCell {
     // MARK: Actions
     
     @IBAction func sellButtonTapped(sender: UIButton) {
-        Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
-        
         self.actionConsumableDelegate?.quoteTableViewCellSellButtonTapped(self)
     }
     
-    @IBAction func buyButtonTapped(sender: UIButton) {
-        Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
-        
+    @IBAction func buyButtonTapped(sender: UIButton) {        
         self.actionConsumableDelegate?.quoteTableViewCellBuyButtonTapped(self)
     }
 }

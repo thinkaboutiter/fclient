@@ -84,4 +84,8 @@ extension UIColor {
     class func quoteChangeDirecionUnchangedColor() -> UIColor {
         return UIColor.colorWithRGB(0x080808)
     }
+    
+    class func quoteHolderViewBorderColor() -> UIColor {
+        return UIColor.colorWithRGB(0x7F7F7F)
+    }
 }

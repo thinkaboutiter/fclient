@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         }
         else {
-            Logger.logInfo().logMessage("\(self) \(#line) \(#function) » Default configuration present")
+            Logger.logInfo().logMessage("\(self) \(#line) \(#function) » Default configuration is present")
         }
     }
 }

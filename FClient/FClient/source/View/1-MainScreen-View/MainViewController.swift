@@ -30,7 +30,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
     }
     
-    private var boxexFRC: NSFetchedResultsController {
+    private var boxesFRC: NSFetchedResultsController {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
     }
     
@@ -342,7 +342,7 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.boxexFRC.sections where valid_FrcSections.count > 0 else {
+        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.boxesFRC.sections where valid_FrcSections.count > 0 else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid sections object on \(String(NSFetchedResultsController.self)) object")
             return 0
         }
@@ -359,9 +359,18 @@ extension MainViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        valid_Cell.contentView.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.2)
+        return self.configuredQuoteCollectionViewCell(valid_Cell, atIndexPath: indexPath)
+    }
+    
+    private func configuredQuoteCollectionViewCell(cell: QuoteCollectionViewCell, atIndexPath indexPath: NSIndexPath) -> QuoteCollectionViewCell {
+        guard let valid_Quote: Quote = self.boxesFRC.objectAtIndexPath(indexPath) as? Quote else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to fetch \(String(Quote.self)) object")
+            return cell
+        }
         
-        return valid_Cell
+        cell.updateUIWithQuote(valid_Quote)
+        
+        return cell
     }
 }
 

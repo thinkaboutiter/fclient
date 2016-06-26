@@ -12,6 +12,14 @@ import UIKit
 extension UIButton {
     
     func configureAsQuoteActionButtonWithTitle(title: String) -> UIButton {
+        self.configureAsBoxQuoteActionButtonWithTitle(title)
+        self.layer.cornerRadius = 2
+        self.clipsToBounds = true
+        
+        return self
+    }
+    
+    func configureAsBoxQuoteActionButtonWithTitle(title: String) -> UIButton {
         let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.alignment = .Center
         
@@ -28,8 +36,6 @@ extension UIButton {
         self.setAttributedTitle(attrString, forState: .Normal)
         
         self.backgroundColor = UIColor.quoteActionButtonBackgroundColor()
-        self.layer.cornerRadius = 2
-        self.clipsToBounds = true
         
         return self
     }

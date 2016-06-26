@@ -96,7 +96,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     private func addRefreshButton() {
         if let _ = self.navigationController {
             let refreshButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(self.refreshButtonTapped(_:)))
-            self.navigationItem.rightBarButtonItem = refreshButton
+            self.navigationItem.leftBarButtonItem = refreshButton
         }
     }
     

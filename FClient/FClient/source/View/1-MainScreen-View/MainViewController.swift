@@ -359,6 +359,9 @@ extension MainViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        // update actionConsumableDelegate
+        valid_Cell.updateActionConsumableDelegate(self)
+        
         return self.configuredQuoteCollectionViewCell(valid_Cell, atIndexPath: indexPath)
     }
     
@@ -427,6 +430,23 @@ extension MainViewController: QuoteTableViewCellActionConsumable {
     }
     
     func quoteTableViewCellBuyButtonTapped(sender: QuoteTableViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
+            // completion if needed
+        }
+    }
+}
+
+// MARK: - QuoteTableViewCellActionConsumable protocol
+
+extension MainViewController: QuoteCollectionViewCellActionConsumable {
+    
+    func quoteCollectionViewCellSellButtonTapped(sender: QuoteCollectionViewCell) {
+        self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.bidLabel.text) { (action) in
+            // completion if needed
+        }
+    }
+    
+    func quoteCollectionViewCellBuyButtonTapped(sender: QuoteCollectionViewCell) {
         self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
             // completion if needed
         }

@@ -9,6 +9,11 @@
 import UIKit
 import SimpleLogger
 
+protocol QuoteCollectionViewCellActionConsumable: class {
+    func quoteCollectionViewCellBuyButtonTapped(sender: QuoteCollectionViewCell)
+    func quoteCollectionViewCellSellButtonTapped(sender: QuoteCollectionViewCell)
+}
+
 class QuoteCollectionViewCell: UICollectionViewCell {
     
     // MARK: Properties
@@ -28,6 +33,14 @@ class QuoteCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var askTitleLabel: UILabel!
     @IBOutlet weak var askLabel: UILabel!
     @IBOutlet weak var buyButton: UIButton!
+    
+    private(set) weak var actionConsumableDelegate: QuoteCollectionViewCellActionConsumable?
+    
+    // MARK: Cascaded Accessors
+    
+    func updateActionConsumableDelegate(newDelegate: QuoteCollectionViewCellActionConsumable) {
+        self.actionConsumableDelegate = newDelegate
+    }
     
     // MARK: Initialization
     
@@ -75,10 +88,10 @@ class QuoteCollectionViewCell: UICollectionViewCell {
     // MARK: Actions
     
     @IBAction func sellButtonTapped(sender: UIButton) {
-        Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
+        self.actionConsumableDelegate?.quoteCollectionViewCellSellButtonTapped(self)
     }
     
     @IBAction func buyButtonTapped(sender: UIButton) {
-        Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
+        self.actionConsumableDelegate?.quoteCollectionViewCellBuyButtonTapped(self)
     }
 }

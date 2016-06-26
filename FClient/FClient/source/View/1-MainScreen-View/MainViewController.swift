@@ -116,10 +116,24 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     @objc private func plusButtonTapped(sender: UIBarButtonItem) {
         
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return
+        }
+        
         guard let valid_QuotesSelectionVC: QuotesSelectionViewController = self.storyboard?.instantiateViewControllerWithIdentifier(String(QuotesSelectionViewController.self)) as? QuotesSelectionViewController else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to instantiate \(String(QuotesSelectionViewController.self)) object")
             return
         }
+        
+        // determine additionally selected symbols
+        let selectedSymbols: [QuoteSymbol] = valid_ViewModel.quoteSymbols.filter { (element: QuoteSymbol) -> Bool in
+            return !QuoteSymbol.initialQuoteSymbols().contains(element)
+        }
+        
+        // create and set viewModel object on `valid_QuotesSelectionVC`
+        let quotesSelectionVM: QuotesSelectionViewModel = QuotesSelectionViewModel(withAvailableQuoteSymbols: QuoteSymbol.additionalQuoteSymbols(), selectedQuoteSymbols: selectedSymbols)
+        valid_QuotesSelectionVC.updateViewModel(quotesSelectionVM)
         
         self.navigationController?.pushViewController(valid_QuotesSelectionVC, animated: true)
     }

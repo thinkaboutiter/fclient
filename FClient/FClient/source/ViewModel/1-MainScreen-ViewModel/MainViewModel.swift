@@ -105,6 +105,7 @@ class MainViewModel: ViewModelable {
     
     // view
     private(set) weak var view: MainViewModel.ViewType?
+    
     private(set) var quoteSymbols: [QuoteSymbol] = QuoteSymbol.initialQuoteSymbols()
     private lazy var getQuotesBySymbolsWebService: GetQuotesBySymbolsWebService = {
        return GetQuotesBySymbolsWebService()

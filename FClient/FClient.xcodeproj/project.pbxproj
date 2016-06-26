@@ -26,6 +26,7 @@
 		4F391C571D1EE0860077B6FB /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */; };
 		4F391C591D1EE73B0077B6FB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C581D1EE73B0077B6FB /* UIButton+Extensions.swift */; };
 		4F391C5B1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C5A1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift */; };
+		4F6F894B1D20585300DAF5A0 /* QuoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6F894A1D20585300DAF5A0 /* QuoteCollectionViewCell.swift */; };
 		4FAC68981D1FC2C300D0541B /* QuotesSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC68971D1FC2C300D0541B /* QuotesSelectionViewController.swift */; };
 		4FAC689A1D1FC76A00D0541B /* QuotesSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC68991D1FC76A00D0541B /* QuotesSelectionViewModel.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C581D1EE73B0077B6FB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C5A1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotesTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		4F6F894A1D20585300DAF5A0 /* QuoteCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		4FAC68971D1FC2C300D0541B /* QuotesSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuotesSelectionViewController.swift; path = "FClient/source/View/1-MainScreen-View/QuotesSelectionViewController.swift"; sourceTree = SOURCE_ROOT; };
 		4FAC68991D1FC76A00D0541B /* QuotesSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotesSelectionViewModel.swift; sourceTree = "<group>"; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 				4F391C4C1D1EB3300077B6FB /* QuotesTableView.swift */,
 				4F391C4E1D1EB36C0077B6FB /* QuoteTableViewCell.swift */,
 				4F391C5A1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift */,
+				4F6F894A1D20585300DAF5A0 /* QuoteCollectionViewCell.swift */,
 			);
 			name = _MainScreenUI;
 			path = "FClient/source/View/1-MainScreen-View/_MainScreenUI";
@@ -389,6 +392,7 @@
 				4F391C571D1EE0860077B6FB /* UIView+Extensions.swift in Sources */,
 				4F391C511D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift in Sources */,
 				4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */,
+				4F6F894B1D20585300DAF5A0 /* QuoteCollectionViewCell.swift in Sources */,
 				4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */,
 				4FAC68981D1FC2C300D0541B /* QuotesSelectionViewController.swift in Sources */,
 				4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */,

@@ -22,9 +22,15 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         }
     }
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var quotesTableView: QuotesTableView!
+    @IBOutlet weak var quotesCollectionView: UICollectionView!
     
     private var listFRC: NSFetchedResultsController {
+        return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
+    }
+    
+    private var boxexFRC: NSFetchedResultsController {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
     }
     
@@ -86,6 +92,11 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         self.quotesTableView.separatorStyle = .None
         
         self.quotesTableView.registerClass(QuotesTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: String(QuotesTableViewHeaderFooterView.self))
+        
+        // setup quotesCollectionView
+        self.quotesCollectionView.hidden = true
+        self.quotesCollectionView.delegate = self
+        self.quotesCollectionView.dataSource = self
     }
     
     override func configureUI() {
@@ -125,6 +136,21 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     }
     
     // MARK: Actions
+    
+    @IBAction func segmentedControlValueChanged(sender: UISegmentedControl) {
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.quotesTableView.hidden = false
+            self.quotesCollectionView.hidden = true
+            
+        case 1:
+            self.quotesTableView.hidden = true
+            self.quotesCollectionView.hidden = false
+        default:
+            break
+        }
+    }
     
     @objc private func refreshButtonTapped(sender: UIBarButtonItem) {
         self.fetchQuotes()
@@ -308,6 +334,76 @@ extension MainViewController: UITableViewDelegate {
         }
         
         return headerView
+    }
+}
+
+// MARK: - UICollectionViewDataSource protocol
+
+extension MainViewController: UICollectionViewDataSource {
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.boxexFRC.sections where valid_FrcSections.count > 0 else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid sections object on \(String(NSFetchedResultsController.self)) object")
+            return 0
+        }
+        
+        let sectionInfo: NSFetchedResultsSectionInfo = valid_FrcSections[0]
+        
+        return sectionInfo.numberOfObjects
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        guard let valid_Cell: QuoteCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(String(QuoteCollectionViewCell.self), forIndexPath: indexPath) as? QuoteCollectionViewCell else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » unable to downcast reusableCell to `\(String(QuoteCollectionViewCell.self))`")
+            return UICollectionViewCell()
+        }
+        
+        valid_Cell.contentView.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.2)
+        
+        return valid_Cell
+    }
+}
+
+// MARK: - UICollectionViewDelegate protocol
+
+extension MainViewController: UICollectionViewDelegate {
+    
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout protocol
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    
+    private var quotesCollectionViewEdgeInsets: UIEdgeInsets {
+        let top: CGFloat = 0
+        let left: CGFloat = 20
+        let bottom: CGFloat = 12
+        let right: CGFloat = 20
+        return UIEdgeInsetsMake(top, left, bottom, right)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let cellSide: CGFloat = (
+            CGRectGetWidth(UIScreen.mainScreen().bounds)
+                - self.quotesCollectionViewEdgeInsets.left
+                - self.quotesCollectionViewEdgeInsets.right
+                - self.quotesCollectionViewEdgeInsets.bottom) * 0.5
+        
+        return CGSizeMake(cellSide, cellSide * 0.75)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return self.quotesCollectionViewEdgeInsets
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return self.quotesCollectionViewEdgeInsets.bottom
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return self.quotesCollectionViewEdgeInsets.bottom
     }
 }
 

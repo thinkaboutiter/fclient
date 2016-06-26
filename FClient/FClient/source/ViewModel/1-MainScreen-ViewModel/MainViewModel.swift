@@ -52,12 +52,8 @@ enum QuoteSymbol: String {
         ]
     }
     
-    static func allQuoteSymbols() -> [QuoteSymbol] {
+    static func additionalQuoteSymbols() -> [QuoteSymbol] {
         return [
-            EURUSD,
-            GBPUSD,
-            USDCHF,
-            USDJPY,
             AUDUSD,
             USDCAD,
             GBPJPY,
@@ -65,6 +61,10 @@ enum QuoteSymbol: String {
             EURJPY,
             AUDCAD
         ]
+    }
+    
+    static func allQuoteSymbols() -> [QuoteSymbol] {
+        return QuoteSymbol.initialQuoteSymbols() + QuoteSymbol.additionalQuoteSymbols()
     }
 }
 

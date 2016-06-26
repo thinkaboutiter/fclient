@@ -26,6 +26,12 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     @IBOutlet weak var quotesTableView: QuotesTableView!
     @IBOutlet weak var quotesCollectionView: UICollectionView!
     
+    /*
+     source: https://gist.github.com/Lucien/4440c1cba83318e276bb
+     source: http://stackoverflow.com/questions/20554137/nsfetchedresultscontollerdelegate-for-collectionview
+     */
+    private var blockOperations: [NSBlockOperation] = []
+    
     private var listFRC: NSFetchedResultsController {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
     }
@@ -70,6 +76,13 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     }
     
     deinit {
+        // Cancel all block operations when VC deallocates
+        for operation: NSBlockOperation in self.blockOperations {
+            operation.cancel()
+        }
+        
+        self.blockOperations.removeAll(keepCapacity: false)
+        
         Logger.logInfo().logMessage("\(self) \(#line) \(#function) » \(String(MainViewController.self)) deinitialized")
     }
     
@@ -220,7 +233,14 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
 extension MainViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        self.quotesTableView.beginUpdates()
+        
+        if controller == self.listFRC {
+            self.quotesTableView.beginUpdates()
+        }
+        
+        if controller == self.boxesFRC {
+            self.blockOperations.removeAll(keepCapacity: false)
+        }
     }
     
     func controller(
@@ -229,15 +249,46 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
         atIndex sectionIndex: Int,
         forChangeType type: NSFetchedResultsChangeType)
     {
-        switch type {
-        case .Insert:
-            self.quotesTableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            
-        case .Delete:
-            self.quotesTableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            
-        default:
-            break
+        
+        if controller == self.listFRC {
+            switch type {
+            case .Insert:
+                self.quotesTableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            case .Delete:
+                self.quotesTableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            default:
+                break
+            }
+        }
+        
+        if controller == self.boxesFRC {
+            switch type {
+            case .Insert:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.insertSections(NSIndexSet(index: sectionIndex))
+                    })
+                )
+                
+            case .Delete:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.deleteSections(NSIndexSet(index: sectionIndex))
+                    })
+                )
+                
+            case .Update:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.reloadSections(NSIndexSet(index: sectionIndex))
+                    })
+                )
+                
+            default:
+                break
+            }
         }
     }
     
@@ -258,29 +309,77 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
             return
         }
         
-        switch type {
-        case .Insert:
-            self.quotesTableView.insertRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
-            
-        case .Delete:
-            self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
-            
-        case .Move:
-            if (valid_IndexPath.section != valid_NewIndexPath.section || valid_IndexPath.row != valid_NewIndexPath.row) {
-                self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
-                self.quotesTableView.insertRowsAtIndexPaths([valid_NewIndexPath], withRowAnimation: .Fade)
+        if controller == self.listFRC {
+            switch type {
+            case .Insert:
+                self.quotesTableView.insertRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
                 
-                self.quotesTableView.reloadSections(NSIndexSet(index: valid_IndexPath.section), withRowAnimation: .Fade)
-                self.quotesTableView.reloadSections(NSIndexSet(index: valid_NewIndexPath.section), withRowAnimation: .Fade)
+            case .Delete:
+                self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                
+            case .Move:
+                if (valid_IndexPath.section != valid_NewIndexPath.section || valid_IndexPath.row != valid_NewIndexPath.row) {
+                    self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                    self.quotesTableView.insertRowsAtIndexPaths([valid_NewIndexPath], withRowAnimation: .Fade)
+                    
+                    self.quotesTableView.reloadSections(NSIndexSet(index: valid_IndexPath.section), withRowAnimation: .Fade)
+                    self.quotesTableView.reloadSections(NSIndexSet(index: valid_NewIndexPath.section), withRowAnimation: .Fade)
+                }
+                
+            case .Update:
+                self.quotesTableView.reloadRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
             }
+        }
         
-        case .Update:
-            self.quotesTableView.reloadRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+        if controller == self.boxesFRC {
+            switch type {
+            case .Insert:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.insertItemsAtIndexPaths([valid_NewIndexPath])
+                    })
+                )
+            
+            case .Delete:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.deleteItemsAtIndexPaths([valid_IndexPath])
+                    })
+                )
+                
+            case .Move:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.moveItemAtIndexPath(valid_IndexPath, toIndexPath: valid_NewIndexPath)
+                    })
+                )
+                
+            case .Update:
+                self.blockOperations.append(
+                    NSBlockOperation(block: { [unowned self] in
+                        self.quotesCollectionView.reloadItemsAtIndexPaths([valid_IndexPath])
+                    })
+                )
+            }
         }
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        self.quotesTableView.endUpdates()
+        
+        if controller == self.listFRC {
+            self.quotesTableView.endUpdates()
+        }
+        
+        if controller == self.boxesFRC {
+            self.quotesCollectionView.performBatchUpdates({ () -> Void in
+                for operation: NSBlockOperation in self.blockOperations {
+                    operation.start()
+                }
+            },
+            completion: { (finished) -> Void in
+                self.blockOperations.removeAll(keepCapacity: false)
+            })
+        }
     }
 }
 

@@ -24,11 +24,27 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     @IBOutlet weak var quotesTableView: QuotesTableView!
     
-    private lazy var frc: NSFetchedResultsController = {
-        let lazy_Frc: NSFetchedResultsController = Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: false, withPredicate: nil, groupBy: nil, delegate: self)
+    private var listFRC: NSFetchedResultsController {
+        return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
+    }
+    
+    private var symbolsCompoundPredicate: NSCompoundPredicate? {
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return nil
+        }
         
-        return lazy_Frc
-    }()
+        var predicates: [NSPredicate] = []
+        
+        for quoteSymbol in valid_ViewModel.quoteSymbols {
+            let predicate: NSPredicate = NSPredicate(format: "\(Quote.displayName_AttributeName) == %@", quoteSymbol.rawValue)
+            predicates.append(predicate)
+        }
+        
+        let compoundPredicate: NSCompoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        
+        return compoundPredicate
+    }
     
     // MARK: Cascaded accessors
     
@@ -134,6 +150,9 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         // create and set viewModel object on `valid_QuotesSelectionVC`
         let quotesSelectionVM: QuotesSelectionViewModel = QuotesSelectionViewModel(withAvailableQuoteSymbols: QuoteSymbol.additionalQuoteSymbols(), selectedQuoteSymbols: selectedSymbols)
         valid_QuotesSelectionVC.updateViewModel(quotesSelectionVM)
+        
+        // update selection consumable delegate
+        valid_QuotesSelectionVC.updateQuoteSelectionConsumableDelegate(self)
         
         self.navigationController?.pushViewController(valid_QuotesSelectionVC, animated: true)
     }
@@ -245,7 +264,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.frc.sections where valid_FrcSections.count > 0 else {
+        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.listFRC.sections where valid_FrcSections.count > 0 else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid sections object on \(String(NSFetchedResultsController.self)) object")
             return 0
         }
@@ -268,7 +287,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     private func configuredQuoteTableViewCell(cell: QuoteTableViewCell, atIndexPath indexPath: NSIndexPath) -> QuoteTableViewCell {
-        guard let valid_Quote: Quote = self.frc.objectAtIndexPath(indexPath) as? Quote else {
+        guard let valid_Quote: Quote = self.listFRC.objectAtIndexPath(indexPath) as? Quote else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to fetch \(String(Quote.self)) object")
             return cell
         }
@@ -306,5 +325,19 @@ extension MainViewController: QuoteTableViewCellActionConsumable {
         self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
             // completion if needed
         }
+    }
+}
+
+// MARK: - QuotesSelectionConsumable protocol
+
+extension MainViewController: QuotesSelectionConsumable {
+    
+    func quoteSelectionUpdated(newSelection: [QuoteSymbol]) {
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return
+        }
+        
+        valid_ViewModel.updateQuoteSymbols(QuoteSymbol.initialQuoteSymbols() + newSelection)
     }
 }

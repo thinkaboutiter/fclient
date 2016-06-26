@@ -9,6 +9,12 @@
 import UIKit
 import SimpleLogger
 
+protocol QuotesSelectionConsumable: class {
+    func quoteSelectionUpdated(newSelection: [QuoteSymbol])
+}
+
+// MARK: - QuotesSelectionViewController
+
 class QuotesSelectionViewController: BaseViewController, QuotesSelectionViewModelConsumable {
     
     // MARK: Properties
@@ -21,10 +27,16 @@ class QuotesSelectionViewController: BaseViewController, QuotesSelectionViewMode
     
     @IBOutlet weak var quotesSelectionTableView: UITableView!
     
+    private(set) weak var quotesSelectionConsumableDelegate: QuotesSelectionConsumable?
+    
     // MARK: Cascaded accessors
     
     func updateViewModel(viewModel: QuotesSelectionViewModel) {
         self.viewModel = viewModel
+    }
+    
+    func updateQuoteSelectionConsumableDelegate(newDelegate: QuotesSelectionConsumable) {
+        self.quotesSelectionConsumableDelegate = newDelegate
     }
     
     // MARK: Intitialization
@@ -57,6 +69,10 @@ class QuotesSelectionViewController: BaseViewController, QuotesSelectionViewMode
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func configureUI() {
+        self.title = self.viewModel?.title
     }
     
 
@@ -149,7 +165,8 @@ extension QuotesSelectionViewController: UITableViewDelegate {
         // update slectedQuoteSybols on ViewModel object
         valid_ViewModel.updatedSelectedQuoteSymbols(newSelectedQuoteSymbols)
         
-        // TODO: update data on MainVC model so it is displayed
+        // update quotes data on MainVC model so it is displayed
+        self.quotesSelectionConsumableDelegate?.quoteSelectionUpdated(newSelectedQuoteSymbols)
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }

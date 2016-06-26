@@ -27,16 +27,17 @@ class QuotesSelectionViewModel: ViewModelable {
     // MARK: Properties
     
     var title: String? {
-        return NSLocalizedString("Add quote", comment: "QuotesSelectionViewModel title")
+        return NSLocalizedString("Additonal quotes", comment: "QuotesSelectionViewModel title")
     }
     
     // view
     private(set) weak var view: QuotesSelectionViewModel.ViewType?
     
     let availableQuoteSymbols: [QuoteSymbol]
+    
     private(set) var selectedQuoteSymbols: [QuoteSymbol] {
         didSet {
-            Logger.logDebug().logMessage("\(self) \(#line) \(#function) » selectedQuoteSymbols updated: \(self.selectedQuoteSymbols)")
+//            Logger.logDebug().logMessage("\(self) \(#line) \(#function) » selectedQuoteSymbols updated: \(self.selectedQuoteSymbols)")
         }
     }
     

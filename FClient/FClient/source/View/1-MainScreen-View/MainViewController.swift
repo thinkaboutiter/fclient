@@ -24,11 +24,27 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     @IBOutlet weak var quotesTableView: QuotesTableView!
     
-    private lazy var frc: NSFetchedResultsController = {
-        let lazy_Frc: NSFetchedResultsController = Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: false, withPredicate: nil, groupBy: nil, delegate: self)
+    private var listFRC: NSFetchedResultsController {
+        return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
+    }
+    
+    private var symbolsCompoundPredicate: NSCompoundPredicate? {
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return nil
+        }
         
-        return lazy_Frc
-    }()
+        var predicates: [NSPredicate] = []
+        
+        for quoteSymbol in valid_ViewModel.quoteSymbols {
+            let predicate: NSPredicate = NSPredicate(format: "\(Quote.displayName_AttributeName) == %@", quoteSymbol.rawValue)
+            predicates.append(predicate)
+        }
+        
+        let compoundPredicate: NSCompoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicates)
+        
+        return compoundPredicate
+    }
     
     // MARK: Cascaded accessors
     
@@ -76,6 +92,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         self.title = self.viewModel?.title
         
         self.addRefreshButton()
+        self.addPlusButton()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -96,14 +113,48 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     private func addRefreshButton() {
         if let _ = self.navigationController {
             let refreshButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(self.refreshButtonTapped(_:)))
-            self.navigationItem.rightBarButtonItem = refreshButton
+            self.navigationItem.leftBarButtonItem = refreshButton
+        }
+    }
+    
+    private func addPlusButton() {
+        if let _ = self.navigationController {
+            let plusButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(self.plusButtonTapped(_:)))
+            self.navigationItem.rightBarButtonItem = plusButton
         }
     }
     
     // MARK: Actions
     
-    @objc private func refreshButtonTapped(sender: UIButton) {
+    @objc private func refreshButtonTapped(sender: UIBarButtonItem) {
         self.fetchQuotes()
+    }
+    
+    @objc private func plusButtonTapped(sender: UIBarButtonItem) {
+        
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return
+        }
+        
+        guard let valid_QuotesSelectionVC: QuotesSelectionViewController = self.storyboard?.instantiateViewControllerWithIdentifier(String(QuotesSelectionViewController.self)) as? QuotesSelectionViewController else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to instantiate \(String(QuotesSelectionViewController.self)) object")
+            return
+        }
+        
+        // determine additionally selected symbols
+        let selectedSymbols: [QuoteSymbol] = valid_ViewModel.quoteSymbols.filter { (element: QuoteSymbol) -> Bool in
+            return !QuoteSymbol.initialQuoteSymbols().contains(element)
+        }
+        
+        // create and set viewModel object on `valid_QuotesSelectionVC`
+        let quotesSelectionVM: QuotesSelectionViewModel = QuotesSelectionViewModel(withAvailableQuoteSymbols: QuoteSymbol.additionalQuoteSymbols(), selectedQuoteSymbols: selectedSymbols)
+        valid_QuotesSelectionVC.updateViewModel(quotesSelectionVM)
+        
+        // update selection consumable delegate
+        valid_QuotesSelectionVC.updateQuoteSelectionConsumableDelegate(self)
+        
+        self.navigationController?.pushViewController(valid_QuotesSelectionVC, animated: true)
     }
     
     // MARK: Network
@@ -213,7 +264,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.frc.sections where valid_FrcSections.count > 0 else {
+        guard let valid_FrcSections: [NSFetchedResultsSectionInfo] = self.listFRC.sections where valid_FrcSections.count > 0 else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid sections object on \(String(NSFetchedResultsController.self)) object")
             return 0
         }
@@ -236,7 +287,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     private func configuredQuoteTableViewCell(cell: QuoteTableViewCell, atIndexPath indexPath: NSIndexPath) -> QuoteTableViewCell {
-        guard let valid_Quote: Quote = self.frc.objectAtIndexPath(indexPath) as? Quote else {
+        guard let valid_Quote: Quote = self.listFRC.objectAtIndexPath(indexPath) as? Quote else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to fetch \(String(Quote.self)) object")
             return cell
         }
@@ -274,5 +325,19 @@ extension MainViewController: QuoteTableViewCellActionConsumable {
         self.showAlertWithTitle(sender.symbolLabel.text, alertMessage: sender.askLabel.text) { (action) in
             // completion if needed
         }
+    }
+}
+
+// MARK: - QuotesSelectionConsumable protocol
+
+extension MainViewController: QuotesSelectionConsumable {
+    
+    func quoteSelectionUpdated(newSelection: [QuoteSymbol]) {
+        guard let valid_ViewModel: MainViewModel = self.viewModel else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
+            return
+        }
+        
+        valid_ViewModel.updateQuoteSymbols(QuoteSymbol.initialQuoteSymbols() + newSelection)
     }
 }

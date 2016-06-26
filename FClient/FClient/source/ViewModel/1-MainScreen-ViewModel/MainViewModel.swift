@@ -52,12 +52,8 @@ enum QuoteSymbol: String {
         ]
     }
     
-    static func allQuoteSymbols() -> [QuoteSymbol] {
+    static func additionalQuoteSymbols() -> [QuoteSymbol] {
         return [
-            EURUSD,
-            GBPUSD,
-            USDCHF,
-            USDJPY,
             AUDUSD,
             USDCAD,
             GBPJPY,
@@ -65,6 +61,10 @@ enum QuoteSymbol: String {
             EURJPY,
             AUDCAD
         ]
+    }
+    
+    static func allQuoteSymbols() -> [QuoteSymbol] {
+        return QuoteSymbol.initialQuoteSymbols() + QuoteSymbol.additionalQuoteSymbols()
     }
 }
 
@@ -105,7 +105,12 @@ class MainViewModel: ViewModelable {
     
     // view
     private(set) weak var view: MainViewModel.ViewType?
-    private(set) var quoteSymbols: [QuoteSymbol] = QuoteSymbol.initialQuoteSymbols()
+    
+    private(set) var quoteSymbols: [QuoteSymbol] = QuoteSymbol.initialQuoteSymbols() {
+        didSet {
+//            Logger.logDebug().logMessage("\(self) \(#line) \(#function) » quoteSymbols updated: \(self.quoteSymbols)")
+        }
+    }
     private lazy var getQuotesBySymbolsWebService: GetQuotesBySymbolsWebService = {
        return GetQuotesBySymbolsWebService()
     }()

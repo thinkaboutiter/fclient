@@ -76,6 +76,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         self.title = self.viewModel?.title
         
         self.addRefreshButton()
+        self.addPlusButton()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -100,10 +101,27 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         }
     }
     
+    private func addPlusButton() {
+        if let _ = self.navigationController {
+            let plusButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(self.plusButtonTapped(_:)))
+            self.navigationItem.rightBarButtonItem = plusButton
+        }
+    }
+    
     // MARK: Actions
     
-    @objc private func refreshButtonTapped(sender: UIButton) {
+    @objc private func refreshButtonTapped(sender: UIBarButtonItem) {
         self.fetchQuotes()
+    }
+    
+    @objc private func plusButtonTapped(sender: UIBarButtonItem) {
+        
+        guard let valid_QuotesSelectionVC: QuotesSelectionViewController = self.storyboard?.instantiateViewControllerWithIdentifier(String(QuotesSelectionViewController.self)) as? QuotesSelectionViewController else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » Unable to instantiate \(String(QuotesSelectionViewController.self)) object")
+            return
+        }
+        
+        self.navigationController?.pushViewController(valid_QuotesSelectionVC, animated: true)
     }
     
     // MARK: Network

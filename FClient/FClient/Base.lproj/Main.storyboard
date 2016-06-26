@@ -172,6 +172,40 @@
             </objects>
             <point key="canvasLocation" x="693.5" y="698.5"/>
         </scene>
+        <!--Quotes Selection View Controller-->
+        <scene sceneID="DXz-fI-8yR">
+            <objects>
+                <viewController storyboardIdentifier="QuotesSelectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hzk-8j-4gp" customClass="QuotesSelectionViewController" customModule="FClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="woB-zO-aZH"/>
+                        <viewControllerLayoutGuide type="bottom" id="7Hu-Pi-ZsJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BMx-vw-VZ0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MEx-Rm-Wsf" userLabel="QuotesSelectionTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7Hu-Pi-ZsJ" firstAttribute="top" secondItem="MEx-Rm-Wsf" secondAttribute="bottom" id="Fra-9R-O3L"/>
+                            <constraint firstItem="MEx-Rm-Wsf" firstAttribute="leading" secondItem="BMx-vw-VZ0" secondAttribute="leading" id="HOL-iT-2bC"/>
+                            <constraint firstAttribute="trailing" secondItem="MEx-Rm-Wsf" secondAttribute="trailing" id="TUA-qG-pIJ"/>
+                            <constraint firstItem="MEx-Rm-Wsf" firstAttribute="top" secondItem="BMx-vw-VZ0" secondAttribute="top" id="e0O-tG-vin"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="quotesSelectionTableView" destination="MEx-Rm-Wsf" id="eja-x5-1zU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fuh-Eb-Pau" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1157.5" y="698.5"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="7eK-kB-bbZ">
             <objects>

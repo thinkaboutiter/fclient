@@ -26,6 +26,7 @@
 		4F391C571D1EE0860077B6FB /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */; };
 		4F391C591D1EE73B0077B6FB /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C581D1EE73B0077B6FB /* UIButton+Extensions.swift */; };
 		4F391C5B1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F391C5A1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift */; };
+		4FAC68981D1FC2C300D0541B /* QuotesSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC68971D1FC2C300D0541B /* QuotesSelectionViewController.swift */; };
 		4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */; };
 		4FFE8D951D19A9B100DC3F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D931D19A9B100DC3F7B /* Main.storyboard */; };
 		4FFE8D971D19A9B100DC3F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FFE8D961D19A9B100DC3F7B /* Assets.xcassets */; };
@@ -58,6 +59,7 @@
 		4F391C561D1EE0860077B6FB /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C581D1EE73B0077B6FB /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		4F391C5A1D1EE9FC0077B6FB /* QuotesTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuotesTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		4FAC68971D1FC2C300D0541B /* QuotesSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuotesSelectionViewController.swift; path = "FClient/source/View/1-MainScreen-View/QuotesSelectionViewController.swift"; sourceTree = SOURCE_ROOT; };
 		4FFE8D8C1D19A9B100DC3F7B /* FClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FFE8D8F1D19A9B100DC3F7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FFE8D941D19A9B100DC3F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			children = (
 				4F391C4B1D1EB2C20077B6FB /* _MainScreenUI */,
 				4FFE8DAC1D19ADFF00DC3F7B /* MainViewController.swift */,
+				4FAC68971D1FC2C300D0541B /* QuotesSelectionViewController.swift */,
 			);
 			name = "1-MainScreen-View";
 			path = "1-MainScreen";
@@ -384,6 +387,7 @@
 				4F391C511D1ED6980077B6FB /* NSMutableAttributedString+Extensions.swift in Sources */,
 				4FFE8DAD1D19ADFF00DC3F7B /* MainViewController.swift in Sources */,
 				4F32168C1D1B08DD00AE0C97 /* Quote+CoreDataProperties.swift in Sources */,
+				4FAC68981D1FC2C300D0541B /* QuotesSelectionViewController.swift in Sources */,
 				4F32168E1D1B08DD00AE0C97 /* Configuration+CoreDataProperties.swift in Sources */,
 				4FFE8D901D19A9B100DC3F7B /* AppDelegate.swift in Sources */,
 				4F13D6201D1C45A500ECB878 /* BaseWebService.swift in Sources */,

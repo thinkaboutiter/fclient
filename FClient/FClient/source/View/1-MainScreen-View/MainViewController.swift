@@ -58,6 +58,8 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         return compoundPredicate
     }
     
+    private var timer: NSTimer?
+    
     // MARK: Cascaded accessors
     
     func updateViewModel(viewModel: MainViewModel) {
@@ -126,7 +128,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.fetchQuotes()
+        self.configureTimer()
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,6 +147,20 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         if let _ = self.navigationController {
             let plusButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(self.plusButtonTapped(_:)))
             self.navigationItem.rightBarButtonItem = plusButton
+        }
+    }
+    
+    private let refreshTimeInterval: NSTimeInterval = 0.5
+    private let refreshTolerance: NSTimeInterval = 0.05
+    
+    private func configureTimer(shouldStart shouldStart: Bool = true) {
+        self.timer?.invalidate()
+        self.timer = nil
+        
+        if shouldStart {
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(self.refreshTimeInterval, target: self, selector: #selector(self.fetchQuotes), userInfo: nil, repeats: true)
+            self.timer?.tolerance = self.refreshTolerance
+            self.timer?.fire()
         }
     }
     
@@ -198,7 +214,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     
     // MARK: Network
     
-    private func fetchQuotes() {
+    @objc private func fetchQuotes() {
         guard let valid_ViewModel: MainViewModel = self.viewModel else {
             Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid \(String(MainViewModel.self)) object")
             return
@@ -210,8 +226,12 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
             guard error == nil else {
                 Logger.logError().logMessage("\(self) \(#line) \(#function) » unable to fetch quotes").logObject(error)
                 
+                // stop timer
+                self.configureTimer(shouldStart: false)
+                
                 self.showAlertForError(error!, actionHandler: { (action: UIAlertAction) in
                     // completion if needed
+                    self.configureTimer()
                 })
                 return
             }
@@ -225,6 +245,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
         
         self.quotesTableView.reloadData()
+        self.quotesCollectionView.reloadData()
     }
 }
 

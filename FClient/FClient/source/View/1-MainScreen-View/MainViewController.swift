@@ -117,7 +117,9 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
     override func configureUI() {
         self.title = self.viewModel?.title
         
-        self.addRefreshButton()
+        // add test button during development
+//        self.addRefreshButton()
+        
         self.addPlusButton()
     }
     

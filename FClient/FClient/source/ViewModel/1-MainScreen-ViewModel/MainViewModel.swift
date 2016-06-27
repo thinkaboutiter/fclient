@@ -109,6 +109,9 @@ class MainViewModel: ViewModelable {
     private(set) var quoteSymbols: [QuoteSymbol] = QuoteSymbol.initialQuoteSymbols() {
         didSet {
 //            Logger.logDebug().logMessage("\(self) \(#line) \(#function) » quoteSymbols updated: \(self.quoteSymbols)")
+            
+            // delete session cookie
+            self.deleteSessionCookie()
         }
     }
     private lazy var getQuotesBySymbolsWebService: GetQuotesBySymbolsWebService = {
@@ -184,5 +187,35 @@ class MainViewModel: ViewModelable {
         dispatch_group_notify(saveGroup, dispatch_get_main_queue(), {
             completion(error: nil)
         })
+    }
+    
+    private func deleteSessionCookie() {
+        // get `sharedHTTPCookieStorage`
+        let cookieSorage: NSHTTPCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        // check for cookies
+        guard let valid_Cookies: [NSHTTPCookie] = cookieSorage.cookies else {
+            Logger.logError().logMessage("\(self) \(#line) \(#function) » sharedHTTPCookieStorage has no cookies")
+            return
+        }
+        
+        var sessionCookie: NSHTTPCookie?
+        
+        // enumerate `valid_Cookies`
+        for cookie in valid_Cookies {
+            
+            // check for session cookie
+            if cookie.name == AppConstants.WebServiceProperties.sessionCookieName {
+                sessionCookie = cookie
+                break
+            }
+        }
+        
+        if let validSessionCookie: NSHTTPCookie = sessionCookie {
+            cookieSorage.deleteCookie(validSessionCookie)
+            
+            Logger.logWarning().logMessage("\(self) \(#line) \(#function) » Session cookie deleted")
+        }
+        
     }
 }

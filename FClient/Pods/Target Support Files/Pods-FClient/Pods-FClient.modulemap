@@ -1,0 +1,6 @@
+framework module Pods_FClient {
+  umbrella header "Pods-FClient-umbrella.h"
+
+  export *
+  module * { export * }
+}

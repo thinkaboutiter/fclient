@@ -225,6 +225,7 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
         Logger.logDebug().logMessage("\(self) \(#line) \(#function) » ")
         
         self.quotesTableView.reloadData()
+        self.quotesCollectionView.reloadData()
     }
 }
 

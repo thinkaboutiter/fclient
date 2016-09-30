@@ -32,13 +32,13 @@ class MainViewController: BaseViewController, MainViewModelConsumable {
      */
     private var blockOperations: [NSBlockOperation] = []
     
-    private var listFRC: NSFetchedResultsController {
+    private lazy var listFRC: NSFetchedResultsController = {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
-    }
+    }()
     
-    private var boxesFRC: NSFetchedResultsController {
+    private lazy var boxesFRC: NSFetchedResultsController = {
         return Quote.MR_fetchAllSortedBy(Quote.displayName_AttributeName, ascending: true, withPredicate: self.symbolsCompoundPredicate, groupBy: nil, delegate: self)
-    }
+    }()
     
     private var symbolsCompoundPredicate: NSCompoundPredicate? {
         guard let valid_ViewModel: MainViewModel = self.viewModel else {
@@ -322,67 +322,73 @@ extension MainViewController: NSFetchedResultsControllerDelegate {
         forChangeType type: NSFetchedResultsChangeType,
         newIndexPath: NSIndexPath?)
     {
-        guard let valid_IndexPath: NSIndexPath = indexPath else {
-            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid indexPaht parameter")
-            return
-        }
-        
-        guard let valid_NewIndexPath: NSIndexPath = newIndexPath else {
-            Logger.logError().logMessage("\(self) \(#line) \(#function) » Invalid newIndexPaht parameter")
-            return
-        }
-        
         if controller == self.listFRC {
             switch type {
             case .Insert:
-                self.quotesTableView.insertRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                if let _ = newIndexPath {
+                    self.quotesTableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                }
                 
             case .Delete:
-                self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                if let _ = indexPath {
+                    self.quotesTableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                }
                 
             case .Move:
-                if (valid_IndexPath.section != valid_NewIndexPath.section || valid_IndexPath.row != valid_NewIndexPath.row) {
-                    self.quotesTableView.deleteRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
-                    self.quotesTableView.insertRowsAtIndexPaths([valid_NewIndexPath], withRowAnimation: .Fade)
-                    
-                    self.quotesTableView.reloadSections(NSIndexSet(index: valid_IndexPath.section), withRowAnimation: .Fade)
-                    self.quotesTableView.reloadSections(NSIndexSet(index: valid_NewIndexPath.section), withRowAnimation: .Fade)
+                if let _ = indexPath, _ = newIndexPath {
+                    if (indexPath!.section != newIndexPath!.section || indexPath!.row != newIndexPath!.row) {
+                        self.quotesTableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                        self.quotesTableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                        
+                        self.quotesTableView.reloadSections(NSIndexSet(index: indexPath!.section), withRowAnimation: .Fade)
+                        self.quotesTableView.reloadSections(NSIndexSet(index: newIndexPath!.section), withRowAnimation: .Fade)
+                    }
                 }
                 
             case .Update:
-                self.quotesTableView.reloadRowsAtIndexPaths([valid_IndexPath], withRowAnimation: .Fade)
+                if let _ = indexPath {
+                    self.quotesTableView.reloadRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                }
             }
         }
         
         if controller == self.boxesFRC {
             switch type {
             case .Insert:
-                self.blockOperations.append(
-                    NSBlockOperation(block: { [unowned self] in
-                        self.quotesCollectionView.insertItemsAtIndexPaths([valid_NewIndexPath])
-                    })
-                )
+                if let _ = newIndexPath {
+                    self.blockOperations.append(
+                        NSBlockOperation(block: { [unowned self] in
+                            self.quotesCollectionView.insertItemsAtIndexPaths([newIndexPath!])
+                        })
+                    )
+                }
             
             case .Delete:
-                self.blockOperations.append(
-                    NSBlockOperation(block: { [unowned self] in
-                        self.quotesCollectionView.deleteItemsAtIndexPaths([valid_IndexPath])
-                    })
-                )
+                if let _ = indexPath {
+                    self.blockOperations.append(
+                        NSBlockOperation(block: { [unowned self] in
+                            self.quotesCollectionView.deleteItemsAtIndexPaths([indexPath!])
+                        })
+                    )
+                }
                 
             case .Move:
-                self.blockOperations.append(
-                    NSBlockOperation(block: { [unowned self] in
-                        self.quotesCollectionView.moveItemAtIndexPath(valid_IndexPath, toIndexPath: valid_NewIndexPath)
-                    })
-                )
+                if let _ = indexPath, _ = newIndexPath {
+                    self.blockOperations.append(
+                        NSBlockOperation(block: { [unowned self] in
+                            self.quotesCollectionView.moveItemAtIndexPath(indexPath!, toIndexPath: newIndexPath!)
+                        })
+                    )
+                }
                 
             case .Update:
-                self.blockOperations.append(
-                    NSBlockOperation(block: { [unowned self] in
-                        self.quotesCollectionView.reloadItemsAtIndexPaths([valid_IndexPath])
-                    })
-                )
+                if let _ = indexPath {
+                    self.blockOperations.append(
+                        NSBlockOperation(block: { [unowned self] in
+                            self.quotesCollectionView.reloadItemsAtIndexPaths([indexPath!])
+                        })
+                    )
+                }
             }
         }
     }
